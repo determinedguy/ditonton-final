@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 
 // Docs can be find here: https://developers.themoviedb.org/3/tv/get-tv-details
 
+// ignore: must_be_immutable
 class TV extends Equatable {
   TV({
     required this.backdropPath,
