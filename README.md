@@ -1,5 +1,7 @@
 # Ditonton
 
+[![Automatic Testing](https://github.com/determinedguy/ditonton-final/actions/workflows/test.yml/badge.svg)](https://github.com/determinedguy/ditonton-final/actions/workflows/test.yml)
+
 Ditonton merupakan sebuah aplikasi katalog film yang dikembangkan oleh Dicoding Indonesia sebagai contoh proyek aplikasi untuk kelas Menjadi Flutter Developer Expert.
 
 > Proyek ini dikerjakan oleh Muhammad Athallah.
