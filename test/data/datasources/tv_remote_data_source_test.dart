@@ -18,7 +18,6 @@ void main() {
 
   late TVRemoteDataSourceImpl dataSource;
   late MockHttpClient mockHttpClient;
-  late MockIOClient mockIOClient;
 
   setUp(() {
     mockHttpClient = MockHttpClient();
