@@ -1,4 +1,5 @@
 import 'package:ditonton/common/constants.dart';
+import 'package:ditonton/presentation/bloc/search_bloc.dart';
 import 'package:ditonton/presentation/pages/about_page.dart';
 import 'package:ditonton/presentation/pages/movie_detail_page.dart';
 import 'package:ditonton/presentation/pages/home_movie_page.dart';
@@ -27,6 +28,7 @@ import 'package:ditonton/presentation/provider/watchlist_tv_notifier.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:ditonton/injection.dart' as di;
 
@@ -78,13 +80,17 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => di.locator<WatchlistTVNotifier>(),
         ),
+        BlocProvider(
+          create: (_) => di.locator<SearchBloc>(),
+        ),
       ],
       child: MaterialApp(
         title: 'Ditonton',
         theme: ThemeData.dark().copyWith(
           primaryColor: kRichBlack,
           scaffoldBackgroundColor: kRichBlack,
-          textTheme: kTextTheme, colorScheme: kColorScheme.copyWith(secondary: kMikadoYellow),
+          textTheme: kTextTheme,
+          colorScheme: kColorScheme.copyWith(secondary: kMikadoYellow),
         ),
         home: HomeMoviePage(),
         onGenerateRoute: (RouteSettings settings) {
