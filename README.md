@@ -7,6 +7,28 @@ Ditonton merupakan sebuah aplikasi katalog film yang dikembangkan oleh Dicoding 
 
 > Proyek ini dikerjakan oleh Muhammad Athallah.
 
+## Kriteria Wajib
+
+- [x] Menerapkan Continuous Integration
+    - [x] Menjalankan pengujian aplikasi secara otomatis. Semua pengujian harus tetap terpenuhi dan mempertahankan fitur dari submission sebelumnya.
+    - [x] Dijalankan setiap ada push kode terbaru ke dalam repository.
+    - [ ] Anda perlu mengunggah kode ke dalam GitHub repository milik Anda sendiri lalu mencantumkan tautannya sebagai catatan (pastikan repository yang digunakan adalah repository public).
+    - [x] Menampilkan build status badge pada berkas readme repository GitHub.
+    - [ ] Melampirkan screenchot salah satu build dari CI service.
+    - [x] Anda bebas menggunakan layanan CI apa pun untuk submission (GitHub Actions).
+- [ ] Menggunakan Library BLoC
+    - [ ] Melakukan migrasi state management yang sebelumnya menggunakan provider menjadi BLoC.
+- [x] Menerapkan SSL Pinning
+    - [x] Memasang sertifikat SSL pada aplikasi sebagai lapisan keamanan tambahan untuk mengakses data dari API.
+- [x] Integrasi dengan Firebase Analytics & Crashlytics
+    - [x] Memastikan developer tetap mendapat feedback dari pengguna, khususnya terkait stabilitas dan laporan eror.
+    - [ ] Ditunjukkan dengan screenshot halaman Analytics dan Crashlytics.
+
+## Kriteria Opsional
+
+- [ ] Modularisasi
+    - [ ] Membagi aplikasi menjadi modul setidaknya untuk dua fitur movie & TV series.
+
 ## Referensi
 
 Berikut adalah referensi yang digunakan untuk menyelesaikan proyek ini.
