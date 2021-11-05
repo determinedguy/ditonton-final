@@ -1,0 +1,36 @@
+{
+    "backdrop_path": "/path.jpg",
+    "first_air_date": "2020-01-01",
+    "genres": [
+      {
+        "id": 1,
+        "name": "Action"
+      }
+    ],
+    "homepage": "https://google.com",
+    "id": 1,
+    "last_air_date": "2021-01-01",
+    "name": "Name",
+    "number_of_episodes": 12,
+    "number_of_seasons": 3,
+    "original_language": "en",
+    "original_name": "Original Name",
+    "overview": "Overview",
+    "popularity": 1.0,
+    "poster_path": "/path.jpg",
+    "seasons": [
+      {
+        "air_date": "2020-05-07",
+        "episode_count": 7,
+        "id": 1,
+        "name": "Company",
+        "overview": "Overview",
+        "poster_path": "/path.jpg",
+        "season_number": 7
+      }
+    ],
+    "status": "Status",
+    "tagline": "Tagline",
+    "vote_average": 1.0,
+    "vote_count": 1
+  }
