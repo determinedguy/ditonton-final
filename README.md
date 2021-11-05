@@ -12,3 +12,4 @@ Ditonton merupakan sebuah aplikasi katalog film yang dikembangkan oleh Dicoding 
 Berikut adalah referensi yang digunakan untuk menyelesaikan proyek ini.
 
 - [Run Flutter tests using GitHub Actions and Codecov](https://damienaicheh.github.io/flutter/github/actions/2021/05/06/flutter-tests-github-actions-codecov-en.html)
+- [How to get your "actual" test coverage of your Flutter applications?](https://medium.com/flutter-community/how-to-actually-get-test-coverage-for-your-flutter-applications-f881c0ae8155)
