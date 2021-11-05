@@ -14,7 +14,7 @@ Ditonton merupakan sebuah aplikasi katalog film yang dikembangkan oleh Dicoding 
     - [x] Dijalankan setiap ada push kode terbaru ke dalam repository.
     - [ ] Anda perlu mengunggah kode ke dalam GitHub repository milik Anda sendiri lalu mencantumkan tautannya sebagai catatan (pastikan repository yang digunakan adalah repository public).
     - [x] Menampilkan build status badge pada berkas readme repository GitHub.
-    - [ ] Melampirkan screenchot salah satu build dari CI service.
+    - [ ] Melampirkan screenshot salah satu build dari CI service.
     - [x] Anda bebas menggunakan layanan CI apa pun untuk submission (GitHub Actions).
 - [ ] Menggunakan Library BLoC
     - [ ] Melakukan migrasi state management yang sebelumnya menggunakan provider menjadi BLoC.
