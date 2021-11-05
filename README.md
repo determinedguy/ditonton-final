@@ -12,9 +12,9 @@ Ditonton merupakan sebuah aplikasi katalog film yang dikembangkan oleh Dicoding 
 - [x] Menerapkan Continuous Integration
     - [x] Menjalankan pengujian aplikasi secara otomatis. Semua pengujian harus tetap terpenuhi dan mempertahankan fitur dari submission sebelumnya.
     - [x] Dijalankan setiap ada push kode terbaru ke dalam repository.
-    - [ ] Anda perlu mengunggah kode ke dalam GitHub repository milik Anda sendiri lalu mencantumkan tautannya sebagai catatan (pastikan repository yang digunakan adalah repository public).
+    - [x] Anda perlu mengunggah kode ke dalam GitHub repository milik Anda sendiri lalu mencantumkan tautannya sebagai catatan (pastikan repository yang digunakan adalah repository public).
     - [x] Menampilkan build status badge pada berkas readme repository GitHub.
-    - [ ] Melampirkan screenshot salah satu build dari CI service.
+    - [x] Melampirkan [screenshot salah satu build dari CI service](screenshots/success_build.png) (GitHub Actions).
     - [x] Anda bebas menggunakan layanan CI apa pun untuk submission (GitHub Actions).
 - [ ] Menggunakan Library BLoC
     - [ ] Melakukan migrasi state management yang sebelumnya menggunakan provider menjadi BLoC.
@@ -22,7 +22,7 @@ Ditonton merupakan sebuah aplikasi katalog film yang dikembangkan oleh Dicoding 
     - [x] Memasang sertifikat SSL pada aplikasi sebagai lapisan keamanan tambahan untuk mengakses data dari API.
 - [x] Integrasi dengan Firebase Analytics & Crashlytics
     - [x] Memastikan developer tetap mendapat feedback dari pengguna, khususnya terkait stabilitas dan laporan eror.
-    - [ ] Ditunjukkan dengan screenshot halaman Analytics dan Crashlytics.
+    - [x] Ditunjukkan dengan screenshot halaman [Analytics](screenshots/analytics.png) dan [Crashlytics](screenshots/crashlytics.png).
 
 ## Kriteria Opsional
 
