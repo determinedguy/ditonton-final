@@ -8,8 +8,6 @@ import 'package:get_it/get_it.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:ditonton/injection.dart' as di;
 
-import '../../dummy_data/dummy_objects.dart';
-
 class FakeWatchlistMovieEvent extends Fake implements WatchlistMovieEvent {}
 
 class FakeWatchlistMovieState extends Fake implements WatchlistMovieState {}
