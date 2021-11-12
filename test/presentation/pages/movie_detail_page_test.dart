@@ -5,7 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 
 void main() {
-
   setUp(() async {
     await GetIt.I.reset();
     await di.init();
@@ -20,11 +19,14 @@ void main() {
   }
 
   testWidgets('Page should display MovieDetailContentSection when opened',
-          (WidgetTester tester) async {
-        final movieDetailContentSectionFinder = find.byType(MovieDetailContentSection);
+      (WidgetTester tester) async {
+    final movieDetailContentSectionFinder =
+        find.byType(MovieDetailContentSection);
 
-        await tester.pumpWidget(_makeTestableWidget(MovieDetailPage(id: 1,)));
+    await tester.pumpWidget(_makeTestableWidget(MovieDetailPage(
+      id: 1,
+    )));
 
-        expect(movieDetailContentSectionFinder, findsOneWidget);
-      });
+    expect(movieDetailContentSectionFinder, findsOneWidget);
+  });
 }

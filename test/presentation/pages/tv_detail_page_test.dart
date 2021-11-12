@@ -20,8 +20,7 @@ void main() {
 
   testWidgets('Page should display TVDetailContentSection when opened',
       (WidgetTester tester) async {
-    final movieDetailContentSectionFinder =
-        find.byType(TVDetailContentSection);
+    final movieDetailContentSectionFinder = find.byType(TVDetailContentSection);
 
     await tester.pumpWidget(_makeTestableWidget(TVDetailPage(
       id: 1,
