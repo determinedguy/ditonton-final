@@ -57,44 +57,4 @@ void main() {
     expect(centerFinder, findsOneWidget);
     expect(progressFinder, findsOneWidget);
   });
-
-  testWidgets('Page should display data when data is loaded',
-      (WidgetTester tester) async {
-    when(() => mockBloc.state).thenReturn(
-      WatchlistTVLoadedState(),
-    );
-    when(() => mockBloc.watchlist).thenReturn([testWatchlistTV]);
-
-    final listViewFinder = find.byType(ListView);
-
-    await tester.pumpWidget(_makeTestableWidget(WatchlistTVPage()));
-
-    expect(listViewFinder, findsOneWidget);
-  });
-
-  testWidgets('Page should display text with message when data is empty',
-      (WidgetTester tester) async {
-    when(() => mockBloc.state).thenReturn(
-      WatchlistTVLoadedState(),
-    );
-    when(() => mockBloc.watchlist).thenReturn([]);
-
-    final textFinder = find.byKey(Key('empty_message'));
-
-    await tester.pumpWidget(_makeTestableWidget(WatchlistTVPage()));
-
-    expect(textFinder, findsOneWidget);
-  });
-
-  testWidgets('Page should display text with message when Error',
-      (WidgetTester tester) async {
-    when(() => mockBloc.state).thenReturn(
-        LoadWatchlistTVFailureState(message: "Can't get data"));
-
-    final textFinder = find.byKey(Key('error_message'));
-
-    await tester.pumpWidget(_makeTestableWidget(WatchlistTVPage()));
-
-    expect(textFinder, findsOneWidget);
-  });
 }
