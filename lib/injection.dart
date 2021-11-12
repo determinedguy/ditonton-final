@@ -32,11 +32,11 @@ import 'package:ditonton/domain/usecases/search_tv.dart';
 import 'package:ditonton/presentation/bloc/movie_detail/movie_detail_bloc.dart';
 import 'package:ditonton/presentation/bloc/search_movie/search_bloc.dart';
 import 'package:ditonton/presentation/bloc/search_tv/search_tv_bloc.dart';
+import 'package:ditonton/presentation/bloc/tv_detail/tv_detail_bloc.dart';
 import 'package:ditonton/presentation/provider/movie_list_notifier.dart';
 import 'package:ditonton/presentation/provider/popular_movies_notifier.dart';
 import 'package:ditonton/presentation/provider/top_rated_movies_notifier.dart';
 import 'package:ditonton/presentation/provider/watchlist_movie_notifier.dart';
-import 'package:ditonton/presentation/provider/tv_detail_notifier.dart';
 import 'package:ditonton/presentation/provider/tv_list_notifier.dart';
 import 'package:ditonton/presentation/provider/popular_tv_notifier.dart';
 import 'package:ditonton/presentation/provider/top_rated_tv_notifier.dart';
@@ -81,15 +81,6 @@ Future init() async {
     ),
   );
   locator.registerFactory(
-    () => TVDetailNotifier(
-      getTVDetail: locator(),
-      getTVRecommendations: locator(),
-      getWatchListTVStatus: locator(),
-      saveWatchlistTV: locator(),
-      removeWatchlistTV: locator(),
-    ),
-  );
-  locator.registerFactory(
     () => PopularTVNotifier(
       locator(),
     ),
@@ -123,6 +114,15 @@ Future init() async {
       getWatchListStatus: locator(),
       removeWatchlist: locator(),
       saveWatchlist: locator(),
+    ),
+  );
+  locator.registerFactory(
+    () => TVDetailBloc(
+      getWatchListTVStatus: locator(),
+      getTVRecommendations: locator(),
+      getTVDetail: locator(),
+      removeWatchlistTV: locator(),
+      saveWatchlistTV: locator(),
     ),
   );
 
