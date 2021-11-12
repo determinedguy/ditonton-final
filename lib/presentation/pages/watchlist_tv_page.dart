@@ -1,3 +1,4 @@
+import 'package:ditonton/injection.dart';
 import 'package:ditonton/presentation/bloc/watchlist_tv/watchlist_tv_bloc.dart';
 import 'package:ditonton/presentation/widgets/tv_card_list.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +12,10 @@ class WatchlistTVPage extends StatefulWidget {
 }
 
 class _WatchlistTVPageState extends State<WatchlistTVPage> {
-  late WatchlistTVBloc watchlistTVBloc;
+  WatchlistTVBloc watchlistTVBloc = locator();
 
   @override
   void initState() {
-    watchlistTVBloc = BlocProvider.of<WatchlistTVBloc>(context);
     watchlistTVBloc.add(LoadWatchlistTVEvent());
     super.initState();
   }

@@ -1,3 +1,4 @@
+import 'package:ditonton/injection.dart';
 import 'package:ditonton/presentation/bloc/watchlist_movie/watchlist_movie_bloc.dart';
 import 'package:ditonton/presentation/widgets/movie_card_list.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +12,10 @@ class WatchlistMoviesPage extends StatefulWidget {
 }
 
 class _WatchlistMoviesPageState extends State<WatchlistMoviesPage> {
-  late WatchlistMovieBloc watchlistMovieBloc;
+  WatchlistMovieBloc watchlistMovieBloc = locator();
 
   @override
   void initState() {
-    watchlistMovieBloc = BlocProvider.of<WatchlistMovieBloc>(context);
     watchlistMovieBloc.add(LoadWatchlistMovieEvent());
     super.initState();
   }
