@@ -16,8 +16,8 @@ Ditonton merupakan sebuah aplikasi katalog film yang dikembangkan oleh Dicoding 
     - [x] Menampilkan build status badge pada berkas readme repository GitHub.
     - [x] Melampirkan [screenshot salah satu build dari CI service](screenshots/success_build.png) (GitHub Actions).
     - [x] Anda bebas menggunakan layanan CI apa pun untuk submission (GitHub Actions).
-- [ ] Menggunakan Library BLoC
-    - [ ] Melakukan migrasi state management yang sebelumnya menggunakan provider menjadi BLoC.
+- [x] Menggunakan Library BLoC
+    - [x] Melakukan migrasi state management yang sebelumnya menggunakan provider menjadi BLoC.
 - [x] Menerapkan SSL Pinning
     - [x] Memasang sertifikat SSL pada aplikasi sebagai lapisan keamanan tambahan untuk mengakses data dari API.
 - [x] Integrasi dengan Firebase Analytics & Crashlytics
