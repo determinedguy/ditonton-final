@@ -30,16 +30,16 @@ import 'package:ditonton/domain/usecases/remove_watchlist_tv.dart';
 import 'package:ditonton/domain/usecases/save_watchlist_tv.dart';
 import 'package:ditonton/domain/usecases/search_tv.dart';
 import 'package:ditonton/presentation/bloc/movie_detail/movie_detail_bloc.dart';
+import 'package:ditonton/presentation/bloc/popular_movie/popular_movie_bloc.dart';
+import 'package:ditonton/presentation/bloc/popular_tv/popular_tv_bloc.dart';
 import 'package:ditonton/presentation/bloc/search_movie/search_bloc.dart';
 import 'package:ditonton/presentation/bloc/search_tv/search_tv_bloc.dart';
 import 'package:ditonton/presentation/bloc/tv_detail/tv_detail_bloc.dart';
 import 'package:ditonton/presentation/bloc/watchlist_movie/watchlist_movie_bloc.dart';
 import 'package:ditonton/presentation/bloc/watchlist_tv/watchlist_tv_bloc.dart';
 import 'package:ditonton/presentation/provider/movie_list_notifier.dart';
-import 'package:ditonton/presentation/provider/popular_movies_notifier.dart';
 import 'package:ditonton/presentation/provider/top_rated_movies_notifier.dart';
 import 'package:ditonton/presentation/provider/tv_list_notifier.dart';
-import 'package:ditonton/presentation/provider/popular_tv_notifier.dart';
 import 'package:ditonton/presentation/provider/top_rated_tv_notifier.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/io_client.dart';
@@ -58,27 +58,17 @@ Future init() async {
     ),
   );
   locator.registerFactory(
-    () => PopularMoviesNotifier(
-      locator(),
-    ),
-  );
-  locator.registerFactory(
     () => TopRatedMoviesNotifier(
       getTopRatedMovies: locator(),
     ),
   );
-  
+
   // tv shows provider
   locator.registerFactory(
     () => TVListNotifier(
       getNowPlayingTV: locator(),
       getPopularTV: locator(),
       getTopRatedTV: locator(),
-    ),
-  );
-  locator.registerFactory(
-    () => PopularTVNotifier(
-      locator(),
     ),
   );
   locator.registerFactory(
@@ -126,6 +116,8 @@ Future init() async {
       getWatchlistTV: locator(),
     ),
   );
+  locator.registerFactory(() => PopularMovieBloc(getPopularMovies: locator()));
+  locator.registerFactory(() => PopularTVBloc(getPopularTV: locator()));
 
   // use case
   locator.registerLazySingleton(() => GetNowPlayingMovies(locator()));
