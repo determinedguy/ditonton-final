@@ -1,24 +1,12 @@
-import 'package:ditonton/common/state_enum.dart';
-import 'package:ditonton/presentation/provider/top_rated_movies_notifier.dart';
+import 'package:ditonton/injection.dart';
+import 'package:ditonton/presentation/bloc/top_rated_movie/top_rated_movie_bloc.dart';
 import 'package:ditonton/presentation/widgets/movie_card_list.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class TopRatedMoviesPage extends StatefulWidget {
+class TopRatedMoviesPage extends StatelessWidget {
   static const ROUTE_NAME = '/top-rated-movie';
-
-  @override
-  _TopRatedMoviesPageState createState() => _TopRatedMoviesPageState();
-}
-
-class _TopRatedMoviesPageState extends State<TopRatedMoviesPage> {
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(() =>
-        Provider.of<TopRatedMoviesNotifier>(context, listen: false)
-            .fetchTopRatedMovies());
-  }
+  final TopRatedMovieBloc topRatedMovieBloc = locator();
 
   @override
   Widget build(BuildContext context) {
@@ -26,30 +14,69 @@ class _TopRatedMoviesPageState extends State<TopRatedMoviesPage> {
       appBar: AppBar(
         title: Text('Top Rated Movies'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Consumer<TopRatedMoviesNotifier>(
-          builder: (context, data, child) {
-            if (data.state == RequestState.Loading) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (data.state == RequestState.Loaded) {
-              return ListView.builder(
-                itemBuilder: (context, index) {
-                  final movie = data.movies[index];
-                  return MovieCard(movie);
-                },
-                itemCount: data.movies.length,
-              );
-            } else {
-              return Center(
-                key: Key('error_message'),
-                child: Text(data.message),
-              );
-            }
-          },
-        ),
+      body: BlocProvider(
+        create: (context) => topRatedMovieBloc,
+        child: TopRatedMovieList(),
+      ),
+    );
+  }
+}
+
+class TopRatedMovieList extends StatefulWidget {
+  const TopRatedMovieList({Key? key}) : super(key: key);
+
+  @override
+  _TopRatedMovieListState createState() => _TopRatedMovieListState();
+}
+
+class _TopRatedMovieListState extends State<TopRatedMovieList> {
+  late TopRatedMovieBloc topRatedMovieBloc;
+
+  @override
+  void initState() {
+    topRatedMovieBloc = BlocProvider.of<TopRatedMovieBloc>(context);
+    topRatedMovieBloc.add(LoadTopRatedMovieEvent());
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(8.0),
+      child: BlocBuilder(
+        bloc: topRatedMovieBloc,
+        builder: (context, state) {
+          if (state is TopRatedMovieInitial) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is TopRatedMovieLoadedState &&
+              topRatedMovieBloc.topRatedList.isNotEmpty) {
+            return ListView.builder(
+              itemBuilder: (context, index) {
+                final movie = topRatedMovieBloc.topRatedList[index];
+                return MovieCard(
+                  movie,
+                );
+              },
+              itemCount: topRatedMovieBloc.topRatedList.length,
+            );
+          } else if (state is TopRatedMovieLoadedState &&
+              topRatedMovieBloc.topRatedList.isEmpty) {
+            return Center(
+              key: Key('empty_message'),
+              child: Text("Top Rated Movie is empty"),
+            );
+          } else {
+            String message = state is LoadTopRatedMovieFailureState
+                ? state.message
+                : "Error";
+            return Center(
+              key: Key('error_message'),
+              child: Text(message),
+            );
+          }
+        },
       ),
     );
   }

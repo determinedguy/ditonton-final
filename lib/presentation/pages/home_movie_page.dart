@@ -1,38 +1,24 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/domain/entities/movie.dart';
+import 'package:ditonton/injection.dart';
+import 'package:ditonton/presentation/bloc/movie_list/movie_list_bloc.dart';
 import 'package:ditonton/presentation/pages/about_page.dart';
 import 'package:ditonton/presentation/pages/movie_detail_page.dart';
 import 'package:ditonton/presentation/pages/popular_movies_page.dart';
 import 'package:ditonton/presentation/pages/search_page.dart';
 import 'package:ditonton/presentation/pages/top_rated_movies_page.dart';
 import 'package:ditonton/presentation/pages/watchlist_movies_page.dart';
-import 'package:ditonton/presentation/provider/movie_list_notifier.dart';
 import 'package:ditonton/presentation/pages/home_tv_page.dart';
 import 'package:ditonton/presentation/pages/watchlist_tv_page.dart';
-import 'package:ditonton/common/state_enum.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeMoviePage extends StatefulWidget {
+class HomeMoviePage extends StatelessWidget {
   static const ROUTE_NAME = '/home-movie';
-
-  @override
-  _HomeMoviePageState createState() => _HomeMoviePageState();
-}
-
-class _HomeMoviePageState extends State<HomeMoviePage> {
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(
-        () => Provider.of<MovieListNotifier>(context, listen: false)
-          ..fetchNowPlayingMovies()
-          ..fetchPopularMovies()
-          ..fetchTopRatedMovies());
-  }
+  final MovieListBloc movieListBloc = locator();
 
   @override
   Widget build(BuildContext context) {
@@ -96,65 +82,70 @@ class _HomeMoviePageState extends State<HomeMoviePage> {
           )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Now Playing',
-                style: kHeading6,
+      body: BlocProvider(
+        create: (context) => movieListBloc,
+        child: HomeMovieContentSection(),
+      ),
+    );
+  }
+}
+
+class HomeMovieContentSection extends StatefulWidget {
+  const HomeMovieContentSection({Key? key}) : super(key: key);
+
+  @override
+  _HomeMovieContentSectionState createState() =>
+      _HomeMovieContentSectionState();
+}
+
+class _HomeMovieContentSectionState extends State<HomeMovieContentSection> {
+  late MovieListBloc movieListBloc;
+
+  @override
+  void initState() {
+    movieListBloc = BlocProvider.of<MovieListBloc>(context);
+    movieListBloc.add(LoadMovieListEvent());
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(8),
+      child: BlocBuilder(
+        bloc: movieListBloc,
+        builder: (context, state) {
+          if (state is MovieListInitial) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Now Playing',
+                    style: kHeading6,
+                  ),
+                  MovieList(movieListBloc.nowPlaying),
+                  _buildSubHeading(
+                    title: 'Popular',
+                    onTap: () => Navigator.pushNamed(
+                        context, PopularMoviesPage.ROUTE_NAME),
+                  ),
+                  MovieList(movieListBloc.popular),
+                  _buildSubHeading(
+                    title: 'Top Rated',
+                    onTap: () => Navigator.pushNamed(
+                        context, TopRatedMoviesPage.ROUTE_NAME),
+                  ),
+                  MovieList(movieListBloc.topRated),
+                ],
               ),
-              Consumer<MovieListNotifier>(builder: (context, data, child) {
-                final state = data.nowPlayingState;
-                if (state == RequestState.Loading) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state == RequestState.Loaded) {
-                  return MovieList(data.nowPlayingMovies);
-                } else {
-                  return Text('Failed');
-                }
-              }),
-              _buildSubHeading(
-                title: 'Popular',
-                onTap: () =>
-                    Navigator.pushNamed(context, PopularMoviesPage.ROUTE_NAME),
-              ),
-              Consumer<MovieListNotifier>(builder: (context, data, child) {
-                final state = data.popularMoviesState;
-                if (state == RequestState.Loading) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state == RequestState.Loaded) {
-                  return MovieList(data.popularMovies);
-                } else {
-                  return Text('Failed');
-                }
-              }),
-              _buildSubHeading(
-                title: 'Top Rated',
-                onTap: () =>
-                    Navigator.pushNamed(context, TopRatedMoviesPage.ROUTE_NAME),
-              ),
-              Consumer<MovieListNotifier>(builder: (context, data, child) {
-                final state = data.topRatedMoviesState;
-                if (state == RequestState.Loading) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state == RequestState.Loaded) {
-                  return MovieList(data.topRatedMovies);
-                } else {
-                  return Text('Failed');
-                }
-              }),
-            ],
-          ),
-        ),
+            );
+          }
+        },
       ),
     );
   }

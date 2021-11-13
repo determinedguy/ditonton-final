@@ -1,38 +1,24 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/domain/entities/tv.dart';
+import 'package:ditonton/injection.dart';
+import 'package:ditonton/presentation/bloc/tv_list/tv_list_bloc.dart';
 import 'package:ditonton/presentation/pages/about_page.dart';
 import 'package:ditonton/presentation/pages/tv_detail_page.dart';
 import 'package:ditonton/presentation/pages/popular_tv_page.dart';
 import 'package:ditonton/presentation/pages/search_tv_page.dart';
 import 'package:ditonton/presentation/pages/top_rated_tv_page.dart';
 import 'package:ditonton/presentation/pages/watchlist_tv_page.dart';
-import 'package:ditonton/presentation/provider/tv_list_notifier.dart';
 import 'package:ditonton/presentation/pages/home_movie_page.dart';
 import 'package:ditonton/presentation/pages/watchlist_movies_page.dart';
-import 'package:ditonton/common/state_enum.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomeTVPage extends StatefulWidget {
+class HomeTVPage extends StatelessWidget {
   static const ROUTE_NAME = '/home-tv';
-
-  @override
-  _HomeTVPageState createState() => _HomeTVPageState();
-}
-
-class _HomeTVPageState extends State<HomeTVPage> {
-  @override
-  void initState() {
-    super.initState();
-    Future.microtask(
-        () => Provider.of<TVListNotifier>(context, listen: false)
-          ..fetchNowPlayingTV()
-          ..fetchPopularTV()
-          ..fetchTopRatedTV());
-  }
+  final TVListBloc tvListBloc = locator();
 
   @override
   Widget build(BuildContext context) {
@@ -96,65 +82,70 @@ class _HomeTVPageState extends State<HomeTVPage> {
           )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Now Playing',
-                style: kHeading6,
+      body: BlocProvider(
+        create: (context) => tvListBloc,
+        child: TVListContentSection(),
+      ),
+    );
+  }
+}
+
+class TVListContentSection extends StatefulWidget {
+  const TVListContentSection({Key? key}) : super(key: key);
+
+  @override
+  _TVListContentSectionState createState() =>
+      _TVListContentSectionState();
+}
+
+class _TVListContentSectionState
+    extends State<TVListContentSection> {
+  late TVListBloc tvListBloc;
+
+  @override
+  void initState() {
+    tvListBloc = BlocProvider.of<TVListBloc>(context);
+    tvListBloc.add(LoadTVListEvent());
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(8),
+      child: BlocBuilder(
+        bloc: tvListBloc,
+        builder: (context, state) {
+          if (state is TVListInitial) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [Text(
+                    'Now Playing',
+                    style: kHeading6,
+                  ),
+                  TVList(tvListBloc.nowPlaying),
+                  _buildSubHeading(
+                    title: 'Popular',
+                    onTap: () => Navigator.pushNamed(
+                        context, PopularTVPage.ROUTE_NAME),
+                  ),
+                  TVList(tvListBloc.popular),
+                  _buildSubHeading(
+                    title: 'Top Rated',
+                    onTap: () => Navigator.pushNamed(
+                        context, TopRatedTVPage.ROUTE_NAME),
+                  ),
+                  TVList(tvListBloc.topRated),
+                ],
               ),
-              Consumer<TVListNotifier>(builder: (context, data, child) {
-                final state = data.nowPlayingState;
-                if (state == RequestState.Loading) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state == RequestState.Loaded) {
-                  return TVList(data.nowPlayingTV);
-                } else {
-                  return Text('Failed');
-                }
-              }),
-              _buildSubHeading(
-                title: 'Popular',
-                onTap: () =>
-                    Navigator.pushNamed(context, PopularTVPage.ROUTE_NAME),
-              ),
-              Consumer<TVListNotifier>(builder: (context, data, child) {
-                final state = data.popularTVState;
-                if (state == RequestState.Loading) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state == RequestState.Loaded) {
-                  return TVList(data.popularTV);
-                } else {
-                  return Text('Failed');
-                }
-              }),
-              _buildSubHeading(
-                title: 'Top Rated',
-                onTap: () =>
-                    Navigator.pushNamed(context, TopRatedTVPage.ROUTE_NAME),
-              ),
-              Consumer<TVListNotifier>(builder: (context, data, child) {
-                final state = data.topRatedTVState;
-                if (state == RequestState.Loading) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state == RequestState.Loaded) {
-                  return TVList(data.topRatedTV);
-                } else {
-                  return Text('Failed');
-                }
-              }),
-            ],
-          ),
-        ),
+            );
+          }
+        },
       ),
     );
   }
@@ -182,9 +173,9 @@ class _HomeTVPageState extends State<HomeTVPage> {
 }
 
 class TVList extends StatelessWidget {
-  final List<TV> tv;
+  final List<TV> tvSeriesList;
 
-  TVList(this.tv);
+  TVList(this.tvSeriesList);
 
   @override
   Widget build(BuildContext context) {
@@ -193,21 +184,17 @@ class TVList extends StatelessWidget {
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          final show = tv[index];
+          final tvSeries = tvSeriesList[index];
           return Container(
             padding: const EdgeInsets.all(8),
             child: InkWell(
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  TVDetailPage.ROUTE_NAME,
-                  arguments: show.id,
-                );
-              },
+              onTap: () => Navigator.pushNamed(
+                  context, TVDetailPage.ROUTE_NAME,
+                  arguments: tvSeries.id),
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(16)),
                 child: CachedNetworkImage(
-                  imageUrl: '$BASE_IMAGE_URL${show.posterPath}',
+                  imageUrl: '$BASE_IMAGE_URL${tvSeries.posterPath}',
                   placeholder: (context, url) => Center(
                     child: CircularProgressIndicator(),
                   ),
@@ -217,7 +204,7 @@ class TVList extends StatelessWidget {
             ),
           );
         },
-        itemCount: tv.length,
+        itemCount: tvSeriesList.length,
       ),
     );
   }
