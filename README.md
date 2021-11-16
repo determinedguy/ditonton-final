@@ -35,3 +35,5 @@ Berikut adalah referensi yang digunakan untuk menyelesaikan proyek ini.
 
 - [Run Flutter tests using GitHub Actions and Codecov](https://damienaicheh.github.io/flutter/github/actions/2021/05/06/flutter-tests-github-actions-codecov-en.html)
 - [How to get your "actual" test coverage of your Flutter applications?](https://medium.com/flutter-community/how-to-actually-get-test-coverage-for-your-flutter-applications-f881c0ae8155)
+- [Menyelesaikan permasalahan ketika ada data yang dihapus pada halaman watchlist - Dicoding](https://www.dicoding.com/academies/199/discussions/135937?#comment-441272)
+- [How to handle screen transitions in Flutter - Tetsuhiro Ueda - Medium](https://medium.com/@najeira/how-to-handle-screen-transitions-in-flutter-b39dcb2675f)
