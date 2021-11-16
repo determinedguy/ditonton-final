@@ -1,4 +1,5 @@
 import 'package:ditonton/injection.dart';
+import 'package:ditonton/common/utils.dart';
 import 'package:ditonton/presentation/bloc/watchlist_tv/watchlist_tv_bloc.dart';
 import 'package:ditonton/presentation/widgets/tv_card_list.dart';
 import 'package:flutter/material.dart';
@@ -11,13 +12,23 @@ class WatchlistTVPage extends StatefulWidget {
   _WatchlistTVPageState createState() => _WatchlistTVPageState();
 }
 
-class _WatchlistTVPageState extends State<WatchlistTVPage> {
+class _WatchlistTVPageState extends State<WatchlistTVPage> with RouteAware {
   WatchlistTVBloc watchlistTVBloc = locator();
 
   @override
   void initState() {
     watchlistTVBloc.add(LoadWatchlistTVEvent());
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  void didPopNext() {
+    watchlistTVBloc.add(LoadWatchlistTVEvent());
   }
 
   @override
@@ -63,5 +74,11 @@ class _WatchlistTVPageState extends State<WatchlistTVPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
   }
 }

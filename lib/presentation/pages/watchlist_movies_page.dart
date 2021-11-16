@@ -1,4 +1,5 @@
 import 'package:ditonton/injection.dart';
+import 'package:ditonton/common/utils.dart';
 import 'package:ditonton/presentation/bloc/watchlist_movie/watchlist_movie_bloc.dart';
 import 'package:ditonton/presentation/widgets/movie_card_list.dart';
 import 'package:flutter/material.dart';
@@ -11,13 +12,23 @@ class WatchlistMoviesPage extends StatefulWidget {
   _WatchlistMoviesPageState createState() => _WatchlistMoviesPageState();
 }
 
-class _WatchlistMoviesPageState extends State<WatchlistMoviesPage> {
+class _WatchlistMoviesPageState extends State<WatchlistMoviesPage> with RouteAware {
   WatchlistMovieBloc watchlistMovieBloc = locator();
 
   @override
   void initState() {
     watchlistMovieBloc.add(LoadWatchlistMovieEvent());
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  void didPopNext() {
+    watchlistMovieBloc.add(LoadWatchlistMovieEvent());
   }
 
   @override
@@ -63,5 +74,11 @@ class _WatchlistMoviesPageState extends State<WatchlistMoviesPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
   }
 }

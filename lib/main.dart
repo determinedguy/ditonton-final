@@ -1,4 +1,5 @@
 import 'package:ditonton/common/constants.dart';
+import 'package:ditonton/common/utils.dart';
 import 'package:ditonton/presentation/bloc/search_movie/search_bloc.dart';
 import 'package:ditonton/presentation/bloc/search_tv/search_tv_bloc.dart';
 import 'package:ditonton/presentation/pages/about_page.dart';
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
           colorScheme: kColorScheme.copyWith(secondary: kMikadoYellow),
         ),
         home: HomeMoviePage(),
+        navigatorObservers: [routeObserver],
         onGenerateRoute: (RouteSettings settings) {
           switch (settings.name) {
             case HomeMoviePage.ROUTE_NAME:
