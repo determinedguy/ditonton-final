@@ -36,13 +36,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   @override
-  Stream<Transition<SearchEvent, SearchState>> transformEvents(
-    Stream<SearchEvent> events,
-    TransitionFunction<SearchEvent, SearchState> transitionFn,
-  ) {
-    return super.transformEvents(
-      events.debounceTime(const Duration(milliseconds: 500)),
-      transitionFn,
-    );
-  }
+  Stream<SearchState> get stream =>
+      super.stream.debounceTime(const Duration(milliseconds: 500));
 }

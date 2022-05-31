@@ -3,7 +3,6 @@ import 'package:ditonton/common/constants.dart';
 import 'package:ditonton/injection.dart';
 import 'package:ditonton/presentation/bloc/tv_detail/tv_detail_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 

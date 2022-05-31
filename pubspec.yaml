@@ -32,22 +32,22 @@ dependencies:
   provider: ^6.0.1
   dartz: ^0.10.0-nullsafety.2
   equatable: ^2.0.3
-  google_fonts: ^2.1.0
+  google_fonts: ^3.0.1
   flutter_rating_bar: ^4.0.0
   cached_network_image: ^3.0.0
   get_it: ^7.2.0
   sqflite: ^2.0.0+3
   path_provider: ^2.0.2
-  test_cov_console: ^0.1.4
+  test_cov_console: ^0.2.2
   firebase_core: ^1.6.0
   firebase_crashlytics: ^2.2.5
-  flutter_bloc: ^7.3.3
+  flutter_bloc: ^8.0.1
   rxdart: ^0.27.2
 
 dev_dependencies:
   mockito: ^5.0.8
   build_runner: ^2.0.4
-  bloc_test: ^8.5.0
+  bloc_test: ^9.0.3
   flutter_test:
     sdk: flutter
 

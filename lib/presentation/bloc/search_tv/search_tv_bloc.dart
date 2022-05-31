@@ -36,13 +36,6 @@ class SearchTVBloc extends Bloc<SearchTVEvent, SearchTVState> {
   }
 
   @override
-  Stream<Transition<SearchTVEvent, SearchTVState>> transformEvents(
-    Stream<SearchTVEvent> events,
-    TransitionFunction<SearchTVEvent, SearchTVState> transitionFn,
-  ) {
-    return super.transformEvents(
-      events.debounceTime(const Duration(milliseconds: 500)),
-      transitionFn,
-    );
-  }
+  Stream<SearchTVState> get stream =>
+      super.stream.debounceTime(const Duration(milliseconds: 500));
 }
